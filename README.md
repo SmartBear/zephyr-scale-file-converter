@@ -12,6 +12,7 @@ A file converter for converting *Zephyr* or *Xray* XML files to the *TM4J - Test
 2) Move the exported XML files to the folder ``input``. Files with names starting with ``.`` or ``~$`` will be ignored.
 
 3) Configure settings on file ``settings.json``:
+
 * ``preconditionCustomFieldId``: maps a Jira custom field ID to the default TM4J field ``precondition``.
 * ``plainTextTestScriptFieldId``: maps a Jira custom field ID to a plain text test script. This will ignore the standard Zephyr/XRay test steps.
 * ``owner``: maps the Jira issue assignee or reporter fields to ``owner``. Only accepted values are ``assignee`` or ``reporter``.
