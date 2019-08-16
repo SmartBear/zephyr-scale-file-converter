@@ -18,6 +18,7 @@ A file converter for converting *Zephyr* or *Xray* XML files to the *TM4J - Test
 	* ``priority``: maps Jira priority values to TM4J values (High, Normal, Low).
 	* ``convertWikiMarkup``: set option to convert test case steps from wiki markup format to html. This is needed for some versions of Zephyr, which will export test case steps using wiki markup format.
 	* ``decodeIssueDescription``: set option to decode issues description, for when Jira exports this field html encoded.
+	
 	Examples:
 	```
 	{
