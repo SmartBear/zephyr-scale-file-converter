@@ -1,0 +1,10 @@
+{
+	"mappings": {
+		"preconditionCustomFieldId": "",
+		"plainTextTestScriptFieldId": "",
+		"owner": "",
+		"priority": {}
+	},
+	"convertWikiMarkup": false,
+	"decodeIssueDescription": true
+}
