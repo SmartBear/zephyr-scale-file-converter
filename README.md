@@ -50,6 +50,7 @@ A file converter for converting *Zephyr* or *Xray* XML files to the *TM4J - Test
 		"decodeIssueDescription": true
 	}
 	```
+
 4. Open a terminal window, and navigate to the directory where the repository has been cloned to: ``cd <tm4j-file-converter-dir>``.
 
 5. Install the Javascript dependencies by executing: ``npm install``.
