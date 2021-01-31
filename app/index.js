@@ -12,29 +12,29 @@ function clearFolder(folderName) {
     });
 }
 
-function runConversion() {
+async function runConversion() {
     clearFolder(OUTPUT_FOLDER_NAME);
 
-    fs.readdir('input', function(error, files) {
-        if(error) {
-            console.error("Could not read directory: \"/input\"", error);
-            process.exit(1);
-        }
-        var total = 0;
-        files.forEach(function(file) {
-            if(file.startsWith('~$') || file.startsWith('.')) return;
-            var testCases = testCaseParser.parseTestCases('input/' + file);
-            total += testCases.length;
-            var xml = xmlCreator.exportTestCases(testCases, new Date(), '1.0');
-            fs.writeFile(OUTPUT_FOLDER_NAME + file, xml, function(err) {
-                if (err) {
-                    return console.log('Error importing file ' + file + ': ' + err);
-                }
-                console.log('Success: file converted with ' + testCases.length + ' test cases: ' + file);
-            });
-        });
-        console.log('Total test cases: ' + total);
+    const files = await fs.promises.readdir('input')
+    .catch(error => {
+        console.error("Could not read directory: \"/input\"", error);
+        process.exit(1);
     });
+
+    var total = 0;
+    for(const file of files) {
+        if(file.startsWith('~$') || file.startsWith('.')) continue;
+        var testCases = await testCaseParser.parseTestCases('input/' + file);
+        total += testCases.length;
+        var xml = xmlCreator.exportTestCases(testCases, new Date(), '1.0');
+        fs.writeFile(OUTPUT_FOLDER_NAME + file, xml, function(err) {
+            if (err) {
+                return console.log('Error importing file ' + file + ': ' + err);
+            }
+            console.log('Success: file converted with ' + testCases.length + ' test cases: ' + file);
+        });
+    }
+    console.log('Total test cases: ' + total);
 }
 
 runConversion();

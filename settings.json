@@ -6,5 +6,11 @@
 		"priority": {}
 	},
 	"convertWikiMarkup": false,
-	"decodeIssueDescription": true
+	"decodeIssueDescription": true,
+	"replaceUsernameWithUserKey": false,
+	"jiraServerSettings": {
+		"url": "",
+		"user": "",
+		"password": ""
+	}
 }
