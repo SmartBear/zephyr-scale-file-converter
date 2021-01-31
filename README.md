@@ -1,7 +1,7 @@
 
 # README #
 
-A file converter for converting *Zephyr* or *Xray* XML files to the *Zephyr Scale* XML file format. After the conversion, the resulting file can be imported to Zephyr Scale.
+A file converter for converting *Zephyr for Jira Server/DC* or *Xray* XML files to the *Zephyr Scale* XML file format. After the conversion, the resulting file can be imported to Zephyr Scale.
 
 ## Requirements ##
 * NodeJs 8.x
@@ -19,7 +19,9 @@ A file converter for converting *Zephyr* or *Xray* XML files to the *Zephyr Scal
 * ``priority``: maps Jira priority values to Zephyr Scale values (High, Normal, Low).
 * ``convertWikiMarkup``: set option to convert test case steps from wiki markup format to html. This is needed for some versions of Zephyr, which will export test case steps using wiki markup format.
 * ``decodeIssueDescription``: set option to decode issues description, for when Jira exports this field html encoded.
-
+* ``replaceUsernameWithUserKey``: along with ``jiraServerSettings``, this field sets the option to replace usernames with user keys. This is only needed if the ``owner`` setting is configured. 
+* ``jiraServerSettings``: sets credential information to allows this file converter to connect to Jira Server/DC REST API.
+ 
 Examples:
 ```
 {
@@ -35,7 +37,13 @@ Examples:
 		}
 	},
 	"convertWikiMarkup": true,
-	"decodeIssueDescription": true
+	"decodeIssueDescription": true,
+	"replaceUsernameWithUserKey": true,
+	"jiraServerSettings": {
+		"url": "https://jira.mydomain.com", // or it could be "https://mydomain.com/jira", for example
+		"user": "myUser",
+		"password": "myPassord"
+	}
 }
 ```
 If you don't want to map anything, please leave the fields empty or with default values. This should work for most scenarios:
@@ -48,7 +56,13 @@ If you don't want to map anything, please leave the fields empty or with default
 		"priority": {}
 	},
 	"convertWikiMarkup": false,
-	"decodeIssueDescription": true
+	"decodeIssueDescription": true,
+	"replaceUsernameWithUserKey": false,
+	"jiraServerSettings": {
+		"url": "",
+		"user": "",
+		"password": ""
+	}
 }
 ```
 
