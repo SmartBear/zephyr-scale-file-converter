@@ -18,8 +18,6 @@ if(fieldMappings.plainTextTestScriptFieldId && (fieldMappings.plainTextTestScrip
     ignoredCustomFields.push('customfield_' + fieldMappings.plainTextTestScriptFieldId);
 }
 
-const users = {};
-
 module.exports = {
     parseTestCases: async function(fileName) {
         var testCases = [];
@@ -137,15 +135,10 @@ module.exports = {
         if(!targetField) return;
 
         const username = this._trimOrNull(issue[targetField][0].$.username);
-        if(!username || !settings.replaceUsernameWithUserKey) return username;
+        if(!username) return username;
 
-        if(users[username] === undefined) {
-            users[username] = await apiService.getUserByUsername(username);
-        }
-
-        const user = users[username];
-        if(!user || !user.key) return 'Error retrieving key from username ' + username;
-        return user.key;
+        const user =  await apiService.getUserByUsername(username);
+        return user && user.key;
     },
 
     _getComponent: function(issue) {

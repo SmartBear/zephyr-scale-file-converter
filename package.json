@@ -17,6 +17,6 @@
     "underscore": "1.8.3",
     "xml2js": "0.4.19",
     "xmlbuilder": "2.6.4",
-    "node-fetch": "2.6.1"
+    "cachios": "2.2.5"
   }
 }

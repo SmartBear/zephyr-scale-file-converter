@@ -7,7 +7,6 @@
 	},
 	"convertWikiMarkup": false,
 	"decodeIssueDescription": true,
-	"replaceUsernameWithUserKey": false,
 	"jiraServerSettings": {
 		"url": "",
 		"user": "",
