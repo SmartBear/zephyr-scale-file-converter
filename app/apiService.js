@@ -18,13 +18,15 @@ async function _getRequest(endpoint) {
 module.exports = {
     getUserByUsername: async function(username) {
         if(!username) return null;
+        if(!settings.url) throw 'A URL to connect with the Jira API has not been provided.';
+
         const response = await _getRequest('/user/search?includeInactive=true&username=' + username)
         .catch(error => {
-            const status = error.response.status;
-            switch(status) {
+            const response = error.response;
+            switch(response.status) {
                 case 404: return console.log(`Username ${username} was not found`);
                 case 401: throw 'API authentication error. Please, review your credentials.';
-                default: throw `Error status ${status} retrieving user ${username}`;
+                default: throw `Error status ${response.status} retrieving user ${username}`;
             }
         });
 
