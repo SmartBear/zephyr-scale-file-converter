@@ -16,6 +16,7 @@
     "trim": "0.0.1",
     "underscore": "1.8.3",
     "xml2js": "0.4.19",
-    "xmlbuilder": "2.6.4"
+    "xmlbuilder": "2.6.4",
+    "cachios": "2.2.5"
   }
 }

@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var testCaseBuilder = require('./testCaseBuilder');
+var apiService = require('./apiService');
 var trim = require('trim');
 var fs = require('fs');
 var xml2js = require('xml2js');
@@ -18,7 +19,7 @@ if(fieldMappings.plainTextTestScriptFieldId && (fieldMappings.plainTextTestScrip
 }
 
 module.exports = {
-    parseTestCases: function(fileName) {
+    parseTestCases: async function(fileName) {
         var testCases = [];
         
         var data = fs.readFileSync(fileName);
@@ -51,29 +52,36 @@ module.exports = {
         }
         data = str;
 
-        var parser = new xml2js.Parser();
-        parser.parseString(data, function (err, result) {
-            if(err) {
-                throw err;
+        const parsedData = await this._parseXML(data);
+        const issues = parsedData.rss.channel[0].item;
+        for(const issue of issues) {
+            var testCase;
+            try {
+                testCase = await this._convertIssueToTestCase(issue);
+            } catch(e) {
+                console.log('Error converting test case: ' + issue.summary);
+                throw e;
             }
-            var issues = result.rss.channel[0].item;
-            // console.log(inspect(issues, false, null));
-            _(issues).forEach(function(issue) {
-                var testCase;
-                try {
-                    testCase = this._convertIssueToTestCase(issue);
-                } catch(e) {
-                    console.log('Error converting test case: ' + issue.summary);
-                    throw e;
-                }
-                testCases.push(testCase);
-            }.bind(this));
-        }.bind(this));
+            testCases.push(testCase);
+        }
 
         return testCases;
     },
 
-    _convertIssueToTestCase: function(issue) {
+    _parseXML: function(xml) {
+        return new Promise((resolve, reject) => {
+            const parser = new xml2js.Parser();
+            parser.parseString(xml, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
+
+    _convertIssueToTestCase: async function(issue) {
         var testCase = testCaseBuilder.createTestCase(
             issue.summary,
             settings.decodeIssueDescription ? htmlEntities.decode(issue.description[0]) : issue.description,
@@ -81,7 +89,7 @@ module.exports = {
             this._getStatus(issue),
             this._getPriority(issue),
             this._getLabels(issue),
-            this._getOwner(issue),
+            await this._getOwner(issue),
             this._getComponent(issue),
             this._getIssueLinks(issue),
             this._getCustomFields(issue),
@@ -122,10 +130,15 @@ module.exports = {
         }.bind(this));
     },
 
-    _getOwner: function(issue) {
-        var targetField = this._trimOrNull(fieldMappings.owner);
+    _getOwner: async function(issue) {
+        const targetField = this._trimOrNull(fieldMappings.owner);
         if(!targetField) return;
-        return this._trimOrNull(issue[targetField][0].$.username);
+
+        const username = this._trimOrNull(issue[targetField][0].$.username);
+        if(!username) return username;
+
+        const user =  await apiService.getUserByUsername(username);
+        return user && user.key;
     },
 
     _getComponent: function(issue) {

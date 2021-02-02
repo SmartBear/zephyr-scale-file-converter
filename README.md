@@ -1,7 +1,7 @@
 
 # README #
 
-A file converter for converting *Zephyr* or *Xray* XML files to the *Zephyr Scale* XML file format. After the conversion, the resulting file can be imported to Zephyr Scale.
+A file converter for converting *Zephyr for Jira Server/DC* or *Xray* XML files to the *Zephyr Scale* XML file format. After the conversion, the resulting file can be imported to Zephyr Scale.
 
 ## Requirements ##
 * NodeJs 8.x
@@ -15,11 +15,12 @@ A file converter for converting *Zephyr* or *Xray* XML files to the *Zephyr Scal
 
 * ``preconditionCustomFieldId``: maps a Jira custom field ID to the default Zephyr Scale field ``precondition``.
 * ``plainTextTestScriptFieldId``: maps a Jira custom field ID to a plain text test script. This will ignore the standard Zephyr/XRay test steps.
-* ``owner``: maps the Jira issue assignee or reporter fields to ``owner``. Only accepted values are ``assignee`` or ``reporter``.
+* ``owner``: maps the Jira issue assignee or reporter fields to ``owner``. The only accepted values are ``assignee`` or ``reporter``. If the ``owner`` is set, then the ``jiraServerSettings`` configuration is also required to establish a connection with the Jira Server/DC REST API to convert the usernames into user keys.
 * ``priority``: maps Jira priority values to Zephyr Scale values (High, Normal, Low).
 * ``convertWikiMarkup``: set option to convert test case steps from wiki markup format to html. This is needed for some versions of Zephyr, which will export test case steps using wiki markup format.
 * ``decodeIssueDescription``: set option to decode issues description, for when Jira exports this field html encoded.
-
+* ``jiraServerSettings``: sets credential information to allows this file converter to connect to Jira Server/DC REST API. This is required if the ``owner`` setting is configured.
+ 
 Examples:
 ```
 {
@@ -35,7 +36,12 @@ Examples:
 		}
 	},
 	"convertWikiMarkup": true,
-	"decodeIssueDescription": true
+	"decodeIssueDescription": true,
+	"jiraServerSettings": {
+		"url": "https://jira.mydomain.com", // or it could be "https://mydomain.com/jira", for example
+		"user": "myUser",
+		"password": "myPassord"
+	}
 }
 ```
 If you don't want to map anything, please leave the fields empty or with default values. This should work for most scenarios:
@@ -48,7 +54,12 @@ If you don't want to map anything, please leave the fields empty or with default
 		"priority": {}
 	},
 	"convertWikiMarkup": false,
-	"decodeIssueDescription": true
+	"decodeIssueDescription": true,
+	"jiraServerSettings": {
+		"url": "",
+		"user": "",
+		"password": ""
+	}
 }
 ```
 
