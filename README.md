@@ -15,7 +15,7 @@ A file converter for converting *Zephyr for Jira Server/DC* or *Xray* XML files 
 
 * ``preconditionCustomFieldId``: maps a Jira custom field ID to the default Zephyr Scale field ``precondition``.
 * ``plainTextTestScriptFieldId``: maps a Jira custom field ID to a plain text test script. This will ignore the standard Zephyr/XRay test steps.
-* ``owner``: maps the Jira issue assignee or reporter fields to ``owner``. Only accepted values are ``assignee`` or ``reporter``. If set, ``jiraServerSettings`` setting is also required.
+* ``owner``: maps the Jira issue assignee or reporter fields to ``owner``. The only accepted values are ``assignee`` or ``reporter``. If the ``owner`` is set, then the ``jiraServerSettings`` configuration is also required to establish a connection with the Jira Server/DC REST API to convert the usernames into user keys.
 * ``priority``: maps Jira priority values to Zephyr Scale values (High, Normal, Low).
 * ``convertWikiMarkup``: set option to convert test case steps from wiki markup format to html. This is needed for some versions of Zephyr, which will export test case steps using wiki markup format.
 * ``decodeIssueDescription``: set option to decode issues description, for when Jira exports this field html encoded.
