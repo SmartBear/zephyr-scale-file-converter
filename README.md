@@ -4,7 +4,7 @@
 A file converter for converting *Zephyr for Jira Server/DC* or *Xray* XML files to the *Zephyr Scale* XML file format. After the conversion, the resulting file can be imported to Zephyr Scale.
 
 ## Requirements ##
-* NodeJs 8.x
+* NodeJs 14.x
 
 ## How to use ##
 1) Export a XML file from Jira with Zephyr/Xray test cases. It should be one file per project, since the test case import in Zephyr Scale is by project.
