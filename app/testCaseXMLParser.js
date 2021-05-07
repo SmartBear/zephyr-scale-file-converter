@@ -46,6 +46,12 @@ module.exports = {
             str = str.replace(new RegExp('<data\/>[^<]*<result>', 'g'), '<data/><result><![CDATA[');
             str = str.replace(new RegExp('<\/result>[^<]*<\/step', 'g'), ']]></result></step');
 
+            // Normalize XRay fields names
+            str = str.replace(new RegExp('<\/index>[^<]*<Action>', 'g'), '</index><step>');
+            str = str.replace(new RegExp('<\/Action>[^<]*<Data>', 'g'), '</step><data>');
+            str = str.replace(new RegExp('<\/Data>[^<]*<Expected_Result>', 'g'), '</data><result>');
+            str = str.replace(new RegExp('<\/Expected_Result>[^<]*</step>', 'g'), '</result></step>');
+
             // Encode ampersands
             str = str.replace(new RegExp('& ', 'g'), '&amp; ');
 
