@@ -17,6 +17,7 @@ function toMarkdown(text) {
     trimmedText = trimmedText.replace(/\\\\ /g, '\n'); // Remove JIRA \\
     trimmedText = trimmedText.replace(/\|\|([^|]+)(?=\|\|)/g, '|_.$1'); // Format table header
     trimmedText = trimmedText.replace(/\|\|[^|]*\n/g, '|\n'); // Format table header (last double pipes)
+    trimmedText = trimmedText.replace(/ *\n */g, '\n'); // Remove spaces before and after line breaks
     
     var withoutPre = trimmedText.replace(/{{(.+)}}/g, '<pre>$1</pre>'); // Handle pre
     if (withoutPre !== trimmedText) message += "\n- Pre converted.";
