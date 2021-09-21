@@ -13,7 +13,7 @@
     "html-entities": "1.2.1",
     "mkdirp": "0.5.1",
     "textile-js": "2.0.1",
-    "trim": "0.0.1",
+    "trim": "0.0.3",
     "underscore": "1.8.3",
     "xml2js": "0.4.19",
     "xmlbuilder": "2.6.4",
