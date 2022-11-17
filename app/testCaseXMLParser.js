@@ -217,10 +217,9 @@ module.exports = {
             .each(function(customField) {
                 const cfName = trim(customField.customfieldname[0]);
                 if(!cfName) return;
-                const values = customField
-                    .customfieldvalues[0]
-                    .customfieldvalue
-                    .map(customFieldValue => this._trimOrNull(customFieldValue._));
+
+                const values = this._getCustomFieldValuesFromCustomFieldElement(customField);
+                if(!values || !values.length) return;
 
                 customfields.push({
                     name: cfName,
@@ -238,6 +237,22 @@ module.exports = {
             });
         }
         return customfields;
+    },
+
+    _getCustomFieldValuesFromCustomFieldElement: function(customFieldElement) {
+        const customFieldValues = customFieldElement
+            ?.customfieldvalues
+            ?.map(customFieldValuesElement =>
+                customFieldValuesElement.customfieldvalue)
+            ?.flat();
+        
+        if (!customFieldValues) {
+            return [];
+        }
+
+        return customFieldValues
+            .filter(Boolean)
+            .map(customFieldValue => this._trimOrNull(customFieldValue._));
     },
 
     _getCustomFieldsByType: function(issue, typeName) {
