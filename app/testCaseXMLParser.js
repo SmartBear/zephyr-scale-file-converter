@@ -211,6 +211,24 @@ module.exports = {
             });
         }.bind(this));
 
+        const multiselectCustomFields = this._getCustomFieldsByType(issue, 'com.atlassian.jira.plugin.system.customfieldtypes:multiselect');
+        const multicheckboxesCustomFields = this._getCustomFieldsByType(issue, 'com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes');
+        _([...multiselectCustomFields, ...multicheckboxesCustomFields])
+            .each(function(customField) {
+                const cfName = trim(customField.customfieldname[0]);
+                if(!cfName) return;
+                const values = customField
+                    .customfieldvalues[0]
+                    .customfieldvalue
+                    .map(customFieldValue => this._trimOrNull(customFieldValue._));
+
+                customfields.push({
+                    name: cfName,
+                    value: values.join(','),
+                    type: 'MULTI_CHOICE_SELECT_LIST'
+                });
+            }.bind(this));
+
         var components = this._getComponents(issue);
         if(components.length > 1) {
             customfields.push({
