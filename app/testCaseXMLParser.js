@@ -211,6 +211,23 @@ module.exports = {
             });
         }.bind(this));
 
+        const multiselectCustomFields = this._getCustomFieldsByType(issue, 'com.atlassian.jira.plugin.system.customfieldtypes:multiselect');
+        const multicheckboxesCustomFields = this._getCustomFieldsByType(issue, 'com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes');
+        _([...multiselectCustomFields, ...multicheckboxesCustomFields])
+            .each(function(customField) {
+                const cfName = trim(customField.customfieldname[0]);
+                if(!cfName) return;
+
+                const values = this._getCustomFieldValuesFromCustomFieldElement(customField);
+                if(!values || !values.length) return;
+
+                customfields.push({
+                    name: cfName,
+                    value: values.join(','),
+                    type: 'MULTI_CHOICE_SELECT_LIST'
+                });
+            }.bind(this));
+
         var components = this._getComponents(issue);
         if(components.length > 1) {
             customfields.push({
@@ -220,6 +237,22 @@ module.exports = {
             });
         }
         return customfields;
+    },
+
+    _getCustomFieldValuesFromCustomFieldElement: function(customFieldElement) {
+        const customFieldValues = customFieldElement
+            ?.customfieldvalues
+            ?.map(customFieldValuesElement =>
+                customFieldValuesElement.customfieldvalue)
+            ?.flat();
+        
+        if (!customFieldValues) {
+            return [];
+        }
+
+        return customFieldValues
+            .filter(Boolean)
+            .map(customFieldValue => this._trimOrNull(customFieldValue._));
     },
 
     _getCustomFieldsByType: function(issue, typeName) {
