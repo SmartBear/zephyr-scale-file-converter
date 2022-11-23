@@ -22,8 +22,11 @@ module.exports = {
 
         const response = await _getRequest('/user/search?includeInactive=true&username=' + username)
         .catch(error => {
-            console.log(error)
             const response = error.response;
+            if(!response) {
+                console.log(error);
+                throw `Error ${error.code} executing request`;
+            }
             switch(response.status) {
                 case 404: return console.log(`Username ${username} was not found`);
                 case 401: throw 'API authentication error. Please, review your credentials.';
