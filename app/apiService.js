@@ -22,6 +22,7 @@ module.exports = {
 
         const response = await _getRequest('/user/search?includeInactive=true&username=' + username)
         .catch(error => {
+            console.log(error)
             const response = error.response;
             switch(response.status) {
                 case 404: return console.log(`Username ${username} was not found`);
