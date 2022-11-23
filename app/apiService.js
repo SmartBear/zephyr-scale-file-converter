@@ -22,7 +22,7 @@ module.exports = {
 
         const response = await _getRequest('/user/search?includeInactive=true&username=' + username)
         .catch(error => {
-            const response = error.response;
+            const response = error?.response;
             if(!response) {
                 console.log(error);
                 throw `Error ${error.code} executing request`;
