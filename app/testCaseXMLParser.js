@@ -9,6 +9,14 @@ var settings = require('../settings.json');
 var fieldMappings = settings.mappings;
 var Entities = require("html-entities").XmlEntities;
 const htmlEntities = new Entities();
+var log4js = require("log4js");
+
+log4js.configure({
+    appenders: { logger: { type: "file", filename: "parser.log" } },
+    categories: { default: { appenders: ["logger"], level: "error" } },
+});
+const ERROR_FOLDER_NAME = 'error/';
+
 
 var ignoredCustomFields = [];
 if(fieldMappings.preconditionCustomFieldId && (fieldMappings.preconditionCustomFieldId !== '')) {
@@ -19,7 +27,7 @@ if(fieldMappings.plainTextTestScriptFieldId && (fieldMappings.plainTextTestScrip
 }
 
 module.exports = {
-    parseTestCases: async function(fileName) {
+    parseTestCases: async function(fileName, tempFileName) {
         var testCases = [];
         
         var data = fs.readFileSync(fileName);
@@ -57,7 +65,13 @@ module.exports = {
 
         }
         data = str;
+        await fs.writeFileSync(tempFileName, data, function (err) {
+            if (err) {
+                return console.log('Error storing temp file ' + tempFileName + ': ' + err);
+            }
 
+            console.log('temporary file stored as ' + tempFileName);
+        });
         const parsedData = await this._parseXML(data);
         const issues = parsedData.rss.channel[0].item;
         for(const issue of issues) {
@@ -79,6 +93,11 @@ module.exports = {
             const parser = new xml2js.Parser();
             parser.parseString(xml, (err, result) => {
                 if (err) {
+                    let logger = log4js.getLogger("logger");
+                    logger.error(xml+
+                        '\nIt was not possible to convert the content printed above'
+                        + '\nlook at the line specified by the error message:'
+                    + err.message);
                     reject(err);
                 } else {
                     resolve(result);
