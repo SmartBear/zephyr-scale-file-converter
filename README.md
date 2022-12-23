@@ -91,7 +91,7 @@ vi temp/myInput.xml
 and later go to the line 96316 (note that we are looking for the line stated in the error message + 1) 
 you can do that by pressing ':' and write:
 ```
-:call cursor(96316:251)
+:call cursor(96316,251)
 ```
 there you will have a > character and what is in the left side is what is were the error happened.
 
