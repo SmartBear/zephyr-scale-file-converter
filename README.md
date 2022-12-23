@@ -79,8 +79,7 @@ If you don't want to map anything, please leave the fields empty or with default
 Supposing that you have a file named myInput.xml on /input folder.
 During npm start you get the following error (or similar):
 ```
-It was not possible to convert the content printed above
-look at the line specified by the error message:Unexpected close tag
+Unexpected close tag
 Line: 96315
 Column: 251
 Char: >
