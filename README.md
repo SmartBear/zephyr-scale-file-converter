@@ -72,3 +72,27 @@ If you don't want to map anything, please leave the fields empty or with default
 7) Check the converted files on folder ``output/``.
 
 8) Import each converted file in Zephyr Scale using the default import option "Test Management for Jira".
+
+## Troubleshooting ##
+
+### Unexpected close tag ###
+Supposing that you have a file named myInput.xml on /input folder.
+During npm start you get the following error (or similar):
+```
+Unexpected close tag
+Line: 96315
+Column: 251
+Char: >
+```
+then go to the console command (from inside zephyr-scale-file-converter) and run:
+```
+vi temp/myInput.xml
+```
+and later go to the line 96316 (note that we are looking for the line stated in the error message + 1) 
+you can do that by pressing ':' and write:
+```
+:call cursor(96316,251)
+```
+there you will have a > character and what is in the left side is what is were the error happened.
+
+*Note: be aware that you can use other text editors, but other text editors can show the content in a different way (we do recommend to use vi)
