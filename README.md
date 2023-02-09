@@ -96,3 +96,33 @@ you can do that by pressing ':' and write:
 there you will have a > character and what is in the left side is what is were the error happened.
 
 *Note: be aware that you can use other text editors, but other text editors can show the content in a different way (we do recommend to use vi)
+
+### Exported some test cases, but the system is importing only one ###
+
+This is a known error, the error is with the library xmlbuilder@9.0.4
+
+#### Workarounds:
+
+1. Execute this to uninstall xmlbuilder
+    ```
+    npm uninstall xmlbuilder --save-dev
+    ```
+    And install the correct version of xmlbuilder dependency,  version 2.6.4:
+    ```
+    npm install xmlbuilder@2.6.4 --save-dev
+    ```
+    → Then, run to convert the XML file: npm start
+
+2. If the problem persists, alternatively, you might manually remove all the extra occurrences of the new converted XML file.
+
+   Remove all extra testCases tags:
+
+    ```
+     </testCases>
+      <testCases>
+    ```
+    And also the extra customFields tags:
+    ```
+    </customFields>
+    <customFields>
+    ```
