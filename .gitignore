@@ -1,4 +1,6 @@
 converted/
 output/
 input/
+temp/
 node_modules/
+parser.log
