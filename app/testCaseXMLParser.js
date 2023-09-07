@@ -132,9 +132,15 @@ module.exports = {
     },
 
     _getPrecondition: function(issue) {
-        if(!fieldMappings.precondition || fieldMappings.precondition === '') return;
-        var preconditionCustomField = this._getCustomFieldById(issue, fieldMappings.precondition);
-        return this._trimOrNull(preconditionCustomField.customfieldvalues[0].customfieldvalue[0]);
+        if(!fieldMappings.preconditionCustomFieldId || fieldMappings.preconditionCustomFieldId === '') return;
+        var preconditionCustomField = this._getCustomFieldById(issue, fieldMappings.preconditionCustomFieldId);
+        let customfieldValue = preconditionCustomField.customfieldvalues[0].customfieldvalue[0];
+
+        if(typeof customfieldValue === 'object') {
+            customfieldValue = customfieldValue._
+        }
+
+        return this._trimOrNull(customfieldValue);
     },
 
     _getStatus: function(issue) {
