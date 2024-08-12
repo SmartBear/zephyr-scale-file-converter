@@ -10,6 +10,7 @@
   "author": "Adaptavist Ltd",
   "license": "Apache-2.0",
   "dependencies": {
+    "axios": "^1.7.3",
     "eyes": "0.1.8",
     "html-entities": "1.2.1",
     "log4js": "^6.7.1",
