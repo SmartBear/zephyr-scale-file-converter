@@ -1,10 +1,11 @@
-const cachios = require('cachios');
-
 const settings = require('../settings.json').jiraServerSettings;
 const _authString = 'Basic ' + Buffer.from(settings.user + ':' + settings.password).toString('base64');
 const _apiBaseUrl = settings.url + '/rest/api/2';
 
+const cache = {};
+
 async function _getRequest(endpoint) {
+    if(cache[endpoint]) return cache[endpoint];
     const request = {
         headers: {
             'Authorization': _authString
@@ -12,7 +13,9 @@ async function _getRequest(endpoint) {
         ttl: 300 // seconds
     };
     const url = encodeURI(_apiBaseUrl + endpoint);
-    return cachios.get(url, request); 
+    const response = await cachios.get(url, request); 
+    cache[endpoint] = response;
+    return response;
 }
 
 module.exports = {
