@@ -10,7 +10,7 @@
   "author": "Adaptavist Ltd",
   "license": "Apache-2.0",
   "dependencies": {
-    "cachios": "2.2.5",
+    "cachios": "4.0.0",
     "eyes": "0.1.8",
     "html-entities": "1.2.1",
     "log4js": "^6.7.1",
